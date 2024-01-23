@@ -1,0 +1,27 @@
+service: "service.py:svc"
+labels:
+  owner: mlops
+include:
+  - "service.py"
+  - "download_model.py"
+  - "model_wrappers.py"
+  - "image_example/"
+  - "utils/"
+exclude:
+  - "__pycache__"
+  - "client.py"
+python:
+  requirements_txt: "./requirements.txt" 
+  extra_index_url:
+    - "https://download.pytorch.org/whl/cu113"
+docker:
+  cuda_version: "11.6.2"
+  system_packages:
+    - ffmpeg
+    - libsm6
+    - libxext6
+  distro: debian
+  env:
+      GPU_NUM: 0
+      BENTOML_CONFIG: /home/bentoml/configuration.yml
+  
