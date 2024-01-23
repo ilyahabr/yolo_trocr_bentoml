@@ -11,6 +11,26 @@ virtualenv -p python3.8 bentoml_env
 pip install -r requirements.txt
 ```
 
+#### download yolov8 weights
+```bash
+python download_models.py
+```
+
+#### change permissions (because in docker it won't work without it)
+```bash
+chmod 776 yolov8n-seg.pt
+chmod 776 yolov8n.pt
+```
+---
+### RUN WITH SERVE
+```bash
+BENTOML_CONFIG=configuration.yml bentoml serve service.py:svc -p 8995 --development --reload --debug 
+```
+
+#### Questions for serve:
+1. How to allocate gpu: 1 with it?
+
+---
 ### RUN WITH DOCKER
 ```bash
 bentoml build
@@ -19,16 +39,9 @@ bentoml build
 bentoml bentoml containerize ml_pipeline_service:latest
 ```
 ```bash
-docker run --rm --gpus '"device=1"' -v ./configuration.yml:/home/bentoml/configuration.yml -v $(pwd):/home/bentoml/bento/src/  -p 8995:3000 ml_pipeline_service:mq46sqvzvknho7lb
+docker run --rm --gpus '"device=1"' -v ./configuration.yml:/home/bentoml/configuration.yml -v $(pwd):/home/bentoml/bento/src/  -p 8995:3000 ml_pipeline_service:(your_tag)
 ```
-
-### RUN WITH SERVE
-```bash
-BENTOML_CONFIG=configuration.yml bentoml serve service.py:svc -p 8995 --development --reload --debug 
-```
-
-#### Questions for serve:
-1. How to allocate gpu: 1 with it?
+---
 
 ### Challenges Encountered:
 

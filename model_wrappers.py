@@ -18,7 +18,9 @@ class YoloSegWrapper:
 
     def load_model(self, task: str = "segment") -> ultralytics.YOLO:
         # weights = download_from_s3(self.task_id)
-        self.model = ultralytics.YOLO('/home/bentoml/bento/src/yolov8n-seg.pt', task=task)
+        self.model = ultralytics.YOLO(
+            "/home/bentoml/bento/src/yolov8n-seg.pt", task=task
+        )
         return self.model
 
     def predict(self, batch: tp.List, save: bool = False) -> tp.List:
@@ -50,7 +52,7 @@ class YoloDetWrapper:
 
     def load_model(self, task: str = "detect") -> ultralytics.YOLO:
         # weights = download_from_s3(self.task_id)
-        self.model = ultralytics.YOLO('/home/bentoml/bento/src/yolov8n.pt', task=task)
+        self.model = ultralytics.YOLO("/home/bentoml/bento/src/yolov8n.pt", task=task)
         return self.model
 
     def predict(self, batch: tp.List, save: bool = False) -> tp.List:
@@ -122,7 +124,7 @@ class TrOCRWrapper:
         self.model = VisionEncoderDecoderModel.from_pretrained(
             "microsoft/trocr-base-printed",
         )
-        #self.model.load_state_dict(torch.load(weights, map_location=self.device))
+        # self.model.load_state_dict(torch.load(weights, map_location=self.device))
         self.model.half()  # might hurt perfomance but 6x times faster and 2x less memory.
         return self.model.to(self.device)
 
@@ -135,9 +137,7 @@ class TrOCRWrapper:
             results = self.processor.batch_decode(pred, skip_special_tokens=True)
         return results
 
-    def pre_process(
-        self, raw_batch: dict, image_idx: str) -> tp.List[np.ndarray]:
-
+    def pre_process(self, raw_batch: dict, image_idx: str) -> tp.List[np.ndarray]:
         images = [
             self.transform(image=img)["image"]
             for img in raw_batch[image_idx]["image_crops"]

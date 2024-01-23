@@ -7,7 +7,6 @@ from pathlib import Path
 import bentoml
 import torch
 from bentoml.io import JSON, Multipart, Text
-from clearml import Task
 from loguru import logger
 from model_wrappers import TrOCRWrapper, YoloDetWrapper, YoloSegWrapper
 
@@ -109,7 +108,6 @@ def process_batch(folder_name: str, results_container: json):
         if value["file"] is not None
     ]
 
-
     # Segmentation
     results_seg = yolo_v8_runner_seg.inference.run(paths)
     tag_segmentator = YoloSegWrapper(task_id="SEG_TASK_ID", device=DEVICE)
@@ -127,7 +125,7 @@ def process_batch(folder_name: str, results_container: json):
     for image_idx in results_container:
         images = char_recognizer.pre_process(crop_data, image_idx)
         ocr_result = TrOCR_runner.inference.run(images)
-        #text = char_recognizer.post_process(ocr_result)
+        # text = char_recognizer.post_process(ocr_result)
         if ocr_result is None:
             continue
         results_container[image_idx]["text"] = ocr_result
