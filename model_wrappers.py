@@ -18,7 +18,7 @@ class YoloSegWrapper:
 
     def load_model(self, task: str = "segment") -> ultralytics.YOLO:
         # weights = download_from_s3(self.task_id)
-        self.model = ultralytics.YOLO('yolov8n-seg.pt', task=task)
+        self.model = ultralytics.YOLO('/home/bentoml/bento/src/yolov8n-seg.pt', task=task)
         return self.model
 
     def predict(self, batch: tp.List, save: bool = False) -> tp.List:
@@ -39,7 +39,7 @@ class YoloSegWrapper:
             logger.debug(f"No mask has found for image id {image_idx}!")
             return result.orig_img  # TODO resize first
 
-        return result
+        return result.orig_img
 
 
 class YoloDetWrapper:
@@ -50,7 +50,7 @@ class YoloDetWrapper:
 
     def load_model(self, task: str = "detect") -> ultralytics.YOLO:
         # weights = download_from_s3(self.task_id)
-        self.model = ultralytics.YOLO('yolov8n.pt', task=task)
+        self.model = ultralytics.YOLO('/home/bentoml/bento/src/yolov8n.pt', task=task)
         return self.model
 
     def predict(self, batch: tp.List, save: bool = False) -> tp.List:
