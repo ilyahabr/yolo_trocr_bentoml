@@ -1,2 +1,3 @@
 /bentoml_env
 __pycache__
+*.pt

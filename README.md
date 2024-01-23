@@ -43,21 +43,19 @@ docker run --rm --gpus '"device=1"' -v ./configuration.yml:/home/bentoml/configu
 ```
 ---
 
-### Challenges Encountered:
+### Problems:
 
-1. **Memory Accumulation in Container:**
-   - Memory issues arise when executing within a container, witnessing a cumulative increase of 500MB with each inference attempt.
+1. Memory issues arise when executing within a container, witnessing a cumulative increase of 500MB with each inference attempt.
 
-2. **Time Limit Exceeded during Batch Operation:**
-   - While performing a 30-batch operation, an error is encountered, surpassing the 60-second time limit.
+2. While performing a 30-batch operation, an error is encountered, surpassing the 60-second time limit.(can't reproduce in this repo because of different data and pre/post processing)
 
-3. **Discrepancy in Memory Usage:**
-   - Running with `BENTOML_CONFIG=configuration.yml bentoml serve service.py:svc -p 8995 --development --reload --debug` consumes significantly less memory than execution within a Docker container. Approximately 3GB of memory is utilized, which escalates further with increased batch sizes (e.g., 5500 for batch 30).
+3. Running with `BENTOML_CONFIG=configuration.yml bentoml serve service.py:svc -p 8995 --development --reload --debug` consumes significantly less memory than execution within a Docker container. Approximately 3GB for serve of memory is utilized, and for docker 6-8GB, which escalates further with increased batch sizes
 
-4. **RuntimeError with Batch Size 30:**
-   - A RuntimeError is experienced with a batch size of 30, displaying the message: "Unexpected ASGI message 'http.response.start' sent after the response has already been completed." Despite successful functionality and the desired response, this error persists.
+4. A RuntimeError is experienced with a batch size of 30, displaying the message: "Unexpected ASGI message 'http.response.start' sent after the response has already been completed." Despite successful functionality and the desired response, this error persists. (can't reproduce in this repo because of different data and pre/post processing)
 
-5. **Swagger Not Functional in Docker Container:**
-   - Swagger functionality is impaired when using the Docker container, but it works seamlessly with `bentoml serve`. Investigating the reason for this disparity.
+5. Swagger functionality is impaired when using the Docker container, but it works seamlessly with `bentoml serve`. Investigating the reason for this disparity. 
 
----
+6. What benefits I get while using custom runner with transformers lib and bentoml.transformers? 
+
+7. Can't send defaultdict as input, but send as output is fine. 
+
