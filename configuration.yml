@@ -1,8 +1,8 @@
 api_server:
  workers: 3
+ traffic:
+  timeout: 1200
 runners:
- resources:
-  nvidia.com/gpu: 1
  workers_per_resource: 1
  batching:
   enabled: true

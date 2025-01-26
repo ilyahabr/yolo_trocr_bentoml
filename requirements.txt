@@ -5,6 +5,7 @@ bentoml==1.1.11
 clearml == 1.13.1
 dill==0.3.7
 loguru == 0.7.2
+numpy==1.26.4
 requests == 2.31.0
 torch == 2.0.1
 torchvision==0.15.2

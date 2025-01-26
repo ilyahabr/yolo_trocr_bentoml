@@ -125,14 +125,14 @@ class TrOCRWrapper:
             "microsoft/trocr-base-printed",
         )
         # self.model.load_state_dict(torch.load(weights, map_location=self.device))
-        self.model.half()  # might hurt perfomance but 6x times faster and 2x less memory.
+        # self.model.half()  # might hurt perfomance but 6x times faster and 2x less memory.
         return self.model.to(self.device)
 
     def predict(self, images) -> tp.List:
         with torch.no_grad():
             pixel_values = self.processor(images, return_tensors="pt").pixel_values
             pred = self.model.generate(
-                pixel_values.to(self.device), num_beams=8, max_new_tokens=128
+                pixel_values.to(self.device), num_beams=1, max_new_tokens=128
             )
             results = self.processor.batch_decode(pred, skip_special_tokens=True)
         return results

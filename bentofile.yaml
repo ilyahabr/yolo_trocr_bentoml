@@ -12,12 +12,13 @@ include:
 exclude:
   - "__pycache__"
   - "client.py"
+  - ".venv"
 python:
   requirements_txt: "./requirements.txt" 
   extra_index_url:
     - "https://download.pytorch.org/whl/cu113"
 docker:
-  cuda_version: "11.6.2"
+  python_version: "3.10"
   system_packages:
     - ffmpeg
     - libsm6
